@@ -4,6 +4,7 @@ import threading
 import bot1, bot2, bot3, bot4
 import time
 
+# Finding the host and port
 if len(sys.argv) != 2:
     print("Failed to connect. Try again")
     exit()
@@ -11,25 +12,30 @@ if len(sys.argv) != 2:
 HOST = "localhost"
 PORT = int(sys.argv[1])
 
+# Starting the client socket
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((HOST, PORT))
 
+# For client to type inn their name
 name = input('Enter your name: ')
 
-def recieve():
+# Function for the messages received from client
+def receive():
     while True:
+        # Connection is right = message from client will be handled
         try:
             msg = client.recv(1024).decode('utf-8')
             if msg == 'in_client_name':
                 client.send(name.encode('utf-8'))
             else:
                 print(msg)
+        # If connection fails, client is closed and has to try again.
         except:
             print("Connection failed, try again!")
             client.close()
             break
 
-
+# Function for the client input, as well as the output from the bots
 def accept():
     while True:
         try:
@@ -49,8 +55,8 @@ def accept():
             client.close()
 
 
-
-receive_thread = threading.Thread(target=recieve)
+# Start thread for receive() and accept()
+receive_thread = threading.Thread(target=receive)
 receive_thread.start()
 
 accept_thread = threading.Thread(target=accept)

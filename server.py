@@ -2,6 +2,7 @@ import socket
 import threading
 import sys
 
+# Finding the host and port
 if len(sys.argv) != 2:
     print("Failed to connect. Try again")
     exit()
@@ -9,7 +10,7 @@ if len(sys.argv) != 2:
 HOST = "localhost"
 PORT = int(sys.argv[1])
 
-#Starting server
+# Starting the server socket
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((HOST, PORT))
 server.listen()
@@ -18,7 +19,7 @@ clients = []
 names = []
 
 
-# Sending messaages to all the connected clients KAN SIKKERT DROPPE DETTE
+# Message sent out to client in chatroom
 def broadcast(message):
     for client in clients:
         client.send(message)
@@ -27,7 +28,7 @@ def broadcast(message):
 def handle(client):
     while True:
         try:
-            #Broadccasting messages
+            #Broadcasting messages
             message = client.recv(1024)
             broadcast(message)
 
@@ -42,7 +43,7 @@ def handle(client):
             names.remove(name)
             break
 
-# Receiving / Listening function
+# Receiving / Listening function for clients message
 def receive():
     while True:
         # Accept connection - prints out the clients name on the server terminal
@@ -55,8 +56,9 @@ def receive():
         names.append(name)
         clients.append(client)
 
-        #Broadcast the client_name on the client.py terminal
+        # Message printed out on server.py terminal when client is connected
         print(f"Welcome to the bot {name}")
+        # Broadcast the client_name on the client.py terminal
         broadcast(f"Welcome to the chat {name}! You are now connected to the server.".encode('utf-8'))
 
         # Start handling thread for client

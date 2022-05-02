@@ -3,6 +3,7 @@
 import random
 import re
 
+# When client_input is not in recognised_words, on of these responses will randomly be printed out in the terminal
 def ucertainity():
     response = ["Sorry I was trying to save my goldfish, could you repeat that?",
                 "I am sorry, I do not know",
@@ -29,7 +30,7 @@ def probability(user_message, recognised_words, single_response=False, required_
             has_required_words = False
             break
 
-    # The precentage will help give the best response further down in the code
+    # The percentage will help give the best response further down in the code
     if has_required_words or single_response:
         return int(percentage * 100)
     else:
@@ -57,7 +58,7 @@ def check_msg(messages):
     return ucertainity() if prob_list[best_match] < 1 else best_match
 
 
-# Checks the message from the client.
+# Checks the message from the client to find the right response
 def find_response(client_msg):
     split_message = re.split(r'\s+|[,;?!.-]\s*', client_msg.lower())
     response = check_msg(split_message)
