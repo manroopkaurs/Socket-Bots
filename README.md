@@ -2,6 +2,7 @@
 Individual Portofolio Assignment in DATA2410 - Datanettverk og skytjenester
 
 Name: Manroop Kaur
+
 Studentnr: s351944
 
 How to run:
